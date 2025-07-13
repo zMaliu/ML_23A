@@ -1,4 +1,4 @@
-function [x,y]=F_sun(month,hour,minute)
+function [x,y,z]=F_sun(month,hour,minute)
     D_list=[306,337,0,31,61,92,122,153,184,214,245,275];
     D=D_list(month);
     ST=hour+minute/60;
@@ -17,6 +17,7 @@ function [x,y]=F_sun(month,hour,minute)
     alpha_s_rad = asin(sin_alpha); 
     cos_alpha = cos(alpha_s_rad); % 高度角余弦值
 
+
     %计算方位角
     cos_Y = (sin(delta_rad) - sin(alpha_s_rad) * sin(phi_rad)) / (cos_alpha * cos(phi_rad));
     cos_Y = max(min(cos_Y, 1), -1); 
@@ -27,7 +28,9 @@ function [x,y]=F_sun(month,hour,minute)
     end
     x = sin(Y_s_rad) * cos_alpha; 
     y = cos(Y_s_rad) * cos_alpha; 
-    
+    z = sin_alpha;
+
     x = round(x, 4);
     y = round(y, 4);
+    z = round(z, 4);
 end
