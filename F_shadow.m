@@ -1,4 +1,4 @@
 %三部分遮挡
-function n_sb=F_shadow(a_s,y_s,x,y)
+function t_shadow=F_shadow(Mirrors,Tower,Sun,a_s,y_s)
     
 end
