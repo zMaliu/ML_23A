@@ -1,4 +1,4 @@
-function [x,y,z]=F_sun(month,hour,minute)
+function [a_s,y_s]=F_sun(month,hour,minute)
     D_list= [21, 52, 80, 111, 141, 172, 202, 233, 264, 294, 325, 355];
     D=D_list(month);
     ST=hour+minute/60;
