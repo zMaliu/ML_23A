@@ -1,26 +1,26 @@
-Tower=struct();%å‚¨å­˜å¡”çš„å±žæ€§ç»“æž„ä½“æ•°ç»„ åŒ…æ‹¬åæ ‡ï¼ˆx,y,zï¼‰ã€åŠå¾„(R)
-Mirrors=struct();%å‚¨å­˜å®šæ—¥é•œçš„å±žæ€§ç»“æž„ä½“æ•°ç»„ Mirrorä¸ºå•ä¸ªå®šæ—¥é•œçš„ç»“æž„åŒ–æ•°ç»„ åŒ…æ‹¬åæ ‡(x,y,z) é•¿å®½(h,w)
+Tower=struct();%´¢´æËþµÄÊôÐÔ½á¹¹ÌåÊý×é °üÀ¨×ø±ê£¨x,y,z£©¡¢°ë¾¶(R)
+Mirrors=struct();%´¢´æ¶¨ÈÕ¾µµÄÊôÐÔ½á¹¹ÌåÊý×é MirrorÎªµ¥¸ö¶¨ÈÕ¾µµÄ½á¹¹»¯Êý×é °üÀ¨×ø±ê(x,y,z) ³¤¿í(h,w)
 
-for i=1:N%éåŽ†æ—¶é—´
-    %1ã€éåŽ†ç¡®å®šæœªè¢«å¡”é˜´å½±é®æŒ¡çš„å®šæ—¥é•œ
-    Mirrors=[];%æ‰€æœ‰å®šæ—¥é•œ
+for i=1:N%±éÀúÊ±¼ä
+    %1¡¢±éÀúÈ·¶¨Î´±»ËþÒõÓ°ÕÚµ²µÄ¶¨ÈÕ¾µ
+    Mirrors=[];%ËùÓÐ¶¨ÈÕ¾µ
     for j=1:N
-        %F_Tower_beshadow:è¾“å…¥å¤ªé˜³æ–¹ä½è§’ã€é«˜åº¦è§’+å®šæ—¥é•œä¸­å¿ƒåæ ‡ è¿”å›žtrue/falseï¼ˆæ˜¯å¦åœ¨å¡”é˜´å½±é‡Œï¼‰
-        %å­å‡½æ•°F_Tower_shadow:è¾“å…¥å¤ªé˜³æ–¹ä½è§’ã€é«˜åº¦è§’ è¾“å‡ºå¡”çš„é˜´å½±ä½ç½®
+        %F_Tower_beshadow:ÊäÈëÌ«Ñô·½Î»½Ç¡¢¸ß¶È½Ç+¶¨ÈÕ¾µÖÐÐÄ×ø±ê ·µ»Øtrue/false£¨ÊÇ·ñÔÚËþÒõÓ°Àï£©
+        %×Óº¯ÊýF_tower_shadow:ÊäÈëÌ«Ñô·½Î»½Ç¡¢¸ß¶È½Ç Êä³öËþµÄÒõÓ°Î»ÖÃ
         if F_Tower_beshadow
-            %MirrorsåŽ»æŽ‰è¯¥ç‚¹åæ ‡
+            %MirrorsÈ¥µô¸Ãµã×ø±ê
         end
     end
     
-    %2ã€éåŽ†Mirrorsæ¯ä¸ªå®šæ—¥é•œ è¿›è¡Œé˜´å½±é®æŒ¡æ•ˆçŽ‡è®¡ç®—
-    %F_36points:è¾“å…¥å®šæ—¥é•œä¸­å¿ƒåæ ‡ è¾“å‡ºç¦»æ•£36ä¸ªç‚¹çš„æ•°ç»„36points
-    for j=1:N%æ¯ä¸ªå®šæ—¥é•œ
-        %F_potential_tower:è¾“å…¥Mirrorsæ•°ç»„ è¾“å‡ºè·ç¦»Mirrors(j)é•¿åº¦å°äºŽRçš„æ‰€æœ‰å®šæ—¥é•œ å³Mirrors
-        for k=1:46%éåŽ†36ä¸ªç‚¹
+    %2¡¢±éÀúMirrorsÃ¿¸ö¶¨ÈÕ¾µ ½øÐÐÒõÓ°ÕÚµ²Ð§ÂÊ¼ÆËã
+    %F_36points:ÊäÈë¶¨ÈÕ¾µÖÐÐÄ×ø±ê Êä³öÀëÉ¢36¸öµãµÄÊý×é36points
+    for j=1:N%Ã¿¸ö¶¨ÈÕ¾µ
+        %F_potential_tower:ÊäÈëMirrorsÊý×é Êä³ö¾àÀëMirrors(j)³¤¶ÈÐ¡ÓÚRµÄËùÓÐ¶¨ÈÕ¾µ ¼´Mirrors
+        for k=1:46%±éÀú36¸öµã
             res=0;
-            %F_IOline:è¾“å…¥ç‚¹åæ ‡ã€å¤ªé˜³æ–¹ä½è§’ã€é«˜åº¦è§’ è¾“å‡ºå…¥å°„/åå°„å…‰çº¿æ–¹å‘å‘é‡
+            %F_IOline:ÊäÈëµã×ø±ê¡¢Ì«Ñô·½Î»½Ç¡¢¸ß¶È½Ç Êä³öÈëÉä/·´Éä¹âÏß·½ÏòÏòÁ¿
             for h=1:length(Mirrors)
-                %F_judge:è¾“å…¥ç‚¹åæ ‡ å…¥å°„/åå°„å‘é‡ å®šæ—¥é•œåæ ‡ã€æ³•å‘é‡ è¾“å‡ºtrue/false(æ˜¯å¦ç›¸äº¤)
+                %F_judge:ÊäÈëµã×ø±ê ÈëÉä/·´ÉäÏòÁ¿ ¶¨ÈÕ¾µ×ø±ê¡¢·¨ÏòÁ¿ Êä³ötrue/false(ÊÇ·ñÏà½»)
                 if F_judge
                     res=res+1;
                 end
