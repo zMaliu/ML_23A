@@ -26,11 +26,5 @@ function [a_s,y_s]=F_sun(month,hour,minute)
     if w < 0
         y_s = -y_s;
     end
-    x = sin(y_s) * cos_alpha; 
-    y = cos(y_s) * cos_alpha; 
-    z = sin_alpha;
 
-    x = round(x, 4);
-    y = round(y, 4);
-    z = round(z, 4);
 end
