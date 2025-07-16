@@ -12,4 +12,10 @@ F_change_toland:输入定日镜坐标、点的坐标（定日镜下）、镜子�
 
 F_change_toMirror:输入 输出点在定日镜坐标系下的坐标
 
-F_select_M:输入定日镜数组 输出经筛选后的定日镜数组
+F_select_M:输入太阳方位角、高度角、点坐标 返回true/false（是否在塔阴影里）
+
+F_potential_tower:输入Mirrors数组 输出距离Mirrors(j)长度小于R的所有定日镜 即Mirrors
+
+F_IOline:输入点坐标、太阳方位角、高度角 输出入射/反射光线方向向量
+
+F_judge:输入点坐标 入射/反射向量 定日镜坐标、法向量 输出true/false(是否相交)
