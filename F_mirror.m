@@ -1,10 +1,11 @@
-function [n,m_az,m_el]=F_mirror(a_s,y_s,m_site,t_site)%m_az:镜子方位角 m_el:镜子俯仰角 site表示坐标（m:镜子 t：塔顶）
+%m_az:镜子方位角 m_el:镜子俯仰角 site表示坐标（m:镜子 t：塔顶）
+function [n,m_az,m_el]=F_mirror(a_s,y_s,m_site,t_site)
     %转换弧度
-    a_s_rad=deg2rad(y_s);
+    a_s_rad=deg2rad(a_s);
     y_s_rad=deg2rad(y_s);
     %入射向量I
-    I_x=sin(y_s_rad)*cos(a_s_rad);
-    I_y=cos(y_s_rad)*cos(a_s_rad);
+    I_x=-sin(y_s_rad)*cos(a_s_rad);
+    I_y=-cos(y_s_rad)*cos(a_s_rad);
     I_z=-sin(a_s_rad);
     I=[I_x,I_y,I_z];
     %反射向量R
