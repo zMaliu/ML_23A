@@ -1,6 +1,6 @@
-
 function point = F_36points(x,y,a_m,y_m)
     point=zeros(6,6,3);
+    % 定日镜在地面坐标系下坐标
     pd=[x,y,4];
 
     for i=1:1:6
