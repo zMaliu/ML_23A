@@ -1,3 +1,3 @@
-function =F_judge()
+function = F_judge()
     
 end
