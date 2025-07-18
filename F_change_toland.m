@@ -1,5 +1,5 @@
-% 绕x轴逆时针转a_m 绕z轴逆时针转y_m 
-function p = F_change_toland(pd,a_m,y_m,pm)
+% 缁晉杞撮�嗘椂閽堣浆a_m 缁晍杞撮�嗘椂閽堣浆y_m 
+function points_onland = F_change_toland(Mirror_onland,a_m,y_m,points_onMirror)
     T_a = [1,0,0;
            0,cos(a_m),-sin(a_m);
            0,sin(a_m),cos(a_m)];
@@ -7,6 +7,6 @@ function p = F_change_toland(pd,a_m,y_m,pm)
             sin(y_m),cos(y_m),0;
             0,0,1];
     T = T_a * T_b;
-    % 右乘，我们输入的向量是行向量
-    p=pm*T+pd;
+    % 鍙充箻锛屾垜浠緭鍏ョ殑鍚戦噺鏄鍚戦噺
+    points_onland=points_onMirror*T+Mirror_onland;
 end
