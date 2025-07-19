@@ -1,4 +1,4 @@
-% 绕x轴逆时针转a_m 绕z轴逆时针转y_m 
+% 绕x轴顺时针转a_m 绕z轴顺时针转y_m 
 function points_onland = F_change_toland(Mirror_onland,a_m,y_m,points_onMirror)
     T_a = [1,0,0;
            0,cos(a_m),-sin(a_m);
