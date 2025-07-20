@@ -24,6 +24,6 @@ F_potential_tower:输入Mirrors数组 输出距离Mirrors(j)长度小于R的所�
 
 F_IOline:输入点坐标、太阳方位角、高度角、镜子法向量 输出入射/反射光线方向向量
 
-F_judge:输入在定日镜A点坐标 入射/反射向量 定日镜B坐标、法向量 输出true/false(是否相交)
+F_judge:输入在定日镜A点坐标 反射向量 定日镜B坐标、法向量 输出true/false(是否相交)
 
 F_n_at:计算大气透射率 输入镜子中心与集热器中心的坐标 输出大气透射率
