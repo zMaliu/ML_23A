@@ -1,5 +1,11 @@
 % ’‚ «≤‚ ‘∫Ø ˝
-clc;clear;
-a_m = deg2rad(30);          % »∆X÷·À≥ ±’Î30°„
-y_m = deg2rad(45);          % »∆Z÷·À≥ ±’Î45°„
-points_onland = F_change_toland([1,2,4],a_m,y_m,[1,0,0]);
+Momments={};
+months = 1:12; 
+hours = [9, 10, 12, 13, 15]; 
+minutes = [0, 30, 0, 30, 0]; 
+for month = months
+    for i = 1:length(hours)
+        Momments{end+1} = [month, hours(i), minutes(i)];
+    end
+end
+Momments{1}=[];
