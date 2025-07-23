@@ -32,7 +32,7 @@ for i=1:length(Momments)%遍历时刻
         %F_select_M:输入太阳方位角、高度角、点坐标 
         % 返回true/false（是否在塔阴影里）
         
-        if not F_select_M(a_s,y_s,mirror_site)
+        if not(F_select_M(a_s,y_s,mirror_site))
             new_Mirrors=[new_Mirrors,mirror_site];
         end
     end
