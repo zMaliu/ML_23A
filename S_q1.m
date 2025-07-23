@@ -33,7 +33,7 @@ for i=1:length(Momments)%遍历时刻
         % 返回true/false（是否在塔阴影里）
         
         if not(F_select_M(a_s,y_s,mirror_site))
-            new_Mirrors=[new_Mirrors,mirror_site];
+            new_Mirrors{end + 1} = mirror_site;
         end
     end
     
