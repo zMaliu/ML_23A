@@ -1,16 +1,18 @@
 clc;clear;
-data=readtable("data.xlsx");
-%镜子中心坐标集合 元素为列表 [x,y]
-Mirrors={};
-for i=1:height(data)
-    Mirrors{i}=[data{i,1},data{i,2}];
-end
-
 %时刻(月 小时 分钟) 元素为列表 [month,hour,moment]
 Momments={};
 months = 1:12; 
 hours = [9, 10, 12, 13, 15]; 
 minutes = [0, 30, 0, 30, 0]; 
+h = 4;
+r = 15;
+data=readtable("data.xlsx");
+%镜子中心坐标集合 元素为列表 [x,y]
+Mirrors={};
+for i=1:height(data)
+    Mirrors{i}=[data{i,1},data{i,2},h];
+end
+
 for month = months
     for i = 1:length(hours)
         Momments{end+1} = [month, hours(i), minutes(i)];
@@ -41,7 +43,7 @@ for i=1:length(Momments)%遍历时刻
     %1.2、遍历Mirrors每个定日镜 进行阴影遮挡效率计算
     for j=1:length(new_Mirrors)%每个定日镜
         mirror_site=Mirrors{j};
-        mirror_site=[mirror_site,4];
+        mirror_site=[mirror_site];
         tower_site=[0,0,80];
 
         %part3：计算大气透射率 以数组array_n_at输出
@@ -49,11 +51,12 @@ for i=1:length(Momments)%遍历时刻
         n_at=F_n_at(mirror_site,tower_site);
 
         %F_potential_tower:输入Mirrors数组 输出距离Mirrors(j)长度小于R的所有定日镜 即potential_Mirrors
-        potential_Mirrors=F_potential_tower(mirror_site,new_Mirrors,9);
+        potential_Mirrors=F_potential_tower(mirror_site,new_Mirrors,r);
 
         %F_36points:输入定日镜中心坐标 输出离散36个点的数组36points
         [n,a_m,y_m]=F_mirror(a_s,y_s,mirror_site,tower_site);
         list_36points=F_36points(mirror_site,a_m,y_m);
+
         for k=1:36%遍历36个点
             pointsite_36=list_36points{k};
             res=0;
@@ -62,9 +65,9 @@ for i=1:length(Momments)%遍历时刻
             [n_inline,n_outline]=F_IOline(pointsite_36,a_s,y_s,n);
             for h=1:length(potential_Mirrors)
                 point_inMb=potential_Mirrors{h};
-                [n_Mb,a_m,y_m]=F_mirror(a_s,y_s,point_inMb,tower_site,n_Mb);
+                [n_Mb,a_m,y_m]=F_mirror(a_s,y_s,point_inMb,tower_site);
                 %F_judge:输入点坐标 入射/反射向量 定日镜坐标、法向量 输出true/false(是否相交)
-                if not F_judge(pointsite_36,n_inline,n_outline,point_inMb,n_Mb)
+                if not(F_judge(pointsite_36,n_inline,n_outline,point_inMb,n_Mb))
                     res=res+1;
                     new_points{end+1}=potential_Mirrors;
                 end

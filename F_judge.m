@@ -3,10 +3,10 @@ function bool = F_judge(point_inMirrorA,n_inline,n_out_line,point_MirrorB,n_b)
     % 入射的判断
     % 从a指向太阳
     d1 = -n_inline;
-    l1 = dot(n_b, point_MirrorB - point_onMirrorA);     % 几何意义：向量 (b - a) 在法向量方向上的投影长度
-    theta = dot(n_b, d);       % 几何意义：直线方向 d 与法向量 n_b 的夹角余弦
+    l1 = dot(n_b, point_MirrorB - point_inMirrorA);     % 几何意义：向量 (b - a) 在法向量方向上的投影长度
+    theta = dot(n_b, d1);       % 几何意义：直线方向 d 与法向量 n_b 的夹角余弦
     t1 = l1 / theta;     % 几何意义：从 a 出发，沿方向 d 走多远能碰到平面
-    p1 = point_onMirrorA + t1 * d1;    % 从点 a 出发，沿着方向 d 走了长度 t 后
+    p1 = point_inMirrorA + t1 * d1;    % 从点 a 出发，沿着方向 d 走了长度 t 后
     e11 = cross([0 0 1], n_b);
     if norm(e11) < 1e-8
         e11 = [1 0 0];
