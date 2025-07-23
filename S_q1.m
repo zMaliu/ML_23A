@@ -1,3 +1,4 @@
+clc;clear;
 data=readtable("data.xlsx");
 %镜子中心坐标集合 元素为列表 [x,y]
 Mirrors={};
@@ -72,7 +73,7 @@ for i=1:length(Momments)%遍历时刻
         n_sb=res/36;%单个定日镜的遮挡效率
 
         %part4：计算截断效率 以数组array_n_trunc输出
-        total_points_in36=len(new_points);
+        total_points_in36=length(new_points);
         n_trunc=F_n_trunc(new_points,a_s,y_s,n);
         n_light=n_trunc*n_sb*n_at*n_cos*n_ref;
         total_n_light=total_n_light+n_light;
