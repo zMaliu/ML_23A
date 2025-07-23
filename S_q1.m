@@ -56,21 +56,28 @@ for i=1:length(Momments)%遍历时刻
         %F_36points:输入定日镜中心坐标 输出离散36个点的数组36points
         [n,a_m,y_m]=F_mirror(a_s,y_s,mirror_site,tower_site);
         list_36points=F_36points(mirror_site,a_m,y_m);
-
+        % 没有被遮挡到的点的集合 new_points
+        new_points={};
         for k=1:36%遍历36个点
             pointsite_36=list_36points{k};
             res=0;
-            new_points={};
+            
             %F_IOline:输入点坐标、太阳方位角、高度角 输出入射/反射光线方向向量
             [n_inline,n_outline]=F_IOline(pointsite_36,a_s,y_s,n);
+            % 判断点是否被遮挡
+            sign = true;
             for h=1:length(potential_Mirrors)
                 point_inMb=potential_Mirrors{h};
                 [n_Mb,a_m,y_m]=F_mirror(a_s,y_s,point_inMb,tower_site);
                 %F_judge:输入点坐标 入射/反射向量 定日镜坐标、法向量 输出true/false(是否相交)
-                if not(F_judge(pointsite_36,n_inline,n_outline,point_inMb,n_Mb))
+                if F_judge(pointsite_36,n_inline,n_outline,point_inMb,n_Mb)
                     res=res+1;
-                    new_points{end+1}=potential_Mirrors;
+                    sign = false;
+
                 end
+            end
+            if sign
+                new_points{end + 1} = pointsite_36;
             end
         end
         n_sb=res/36;%单个定日镜的遮挡效率
