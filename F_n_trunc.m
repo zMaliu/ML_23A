@@ -33,7 +33,6 @@ function n_trunc = F_n_trunc(points,a_s,y_s,n_m)
             t = t2;
         else
             hitFlag = false;
-            return;
         end
 
         % 查看高度是否在范围内
