@@ -27,6 +27,7 @@ array_n_at=[];
 n_ref=0.92;
 %part1：计算每个定日镜的阴影遮挡效率n_sb  以数组array_n_sb输出
 for i=1:length(Momments)%遍历时刻
+    disp(i);
     month=Momments{i}(1);
     hour=Momments{i}(2);
     momment=Momments{i}(3);
