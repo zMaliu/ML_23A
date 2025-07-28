@@ -5,7 +5,6 @@ months = 1:12;
 hours = [9, 10, 12, 13, 15]; 
 minutes = [0, 30, 0, 30, 0]; 
 h = 4;
-r = 15;
 data=readtable("data.xlsx");
 %镜子中心坐标集合 元素为列表 [x,y]
 Mirrors={};
@@ -27,7 +26,6 @@ array_n_at=[];
 n_ref=0.92;
 %part1：计算每个定日镜的阴影遮挡效率n_sb  以数组array_n_sb输出
 for i=1:length(Momments)%遍历时刻
-    disp(i);
     month=Momments{i}(1);
     hour=Momments{i}(2);
     momment=Momments{i}(3);
@@ -47,7 +45,8 @@ for i=1:length(Momments)%遍历时刻
     
     %1.2、遍历Mirrors每个定日镜 进行阴影遮挡效率计算
     for j=1:length(new_Mirrors)%每个定日镜
-        mirror_site=Mirrors{j};
+        fprintf("当前为第%d个时刻，第%d个定日镜\n",i,j);
+        mirror_site=new_Mirrors{j};
         tower_site=[0,0,80];
 
         %part3：计算大气透射率 以数组array_n_at输出
@@ -57,8 +56,7 @@ for i=1:length(Momments)%遍历时刻
         array_n_cos=[array_n_cos,n_cos];
 
         %F_potential_tower:输入Mirrors数组 输出距离Mirrors(j)长度小于R的所有定日镜 即potential_Mirrors
-        potential_Mirrors=F_potential_tower(mirror_site,new_Mirrors,r);
-
+        potential_Mirrors=F_potential_tower(mirror_site,new_Mirrors,25);
         %F_36points:输入定日镜中心坐标 输出离散36个点的数组36points
         [n,a_m,y_m]=F_mirror(a_s,y_s,mirror_site,tower_site);
         list_36points=F_36points(mirror_site,a_m,y_m);
@@ -75,7 +73,7 @@ for i=1:length(Momments)%遍历时刻
                 point_inMb=potential_Mirrors{h};
                 [n_Mb,a_m,y_m]=F_mirror(a_s,y_s,point_inMb,tower_site);
                 %F_judge:输入点坐标 入射/反射向量 定日镜坐标、法向量 输出true/false(是否相交)
-                if F_judge(pointsite_36,n_inline,n_outline,point_inMb,n_Mb)
+                if F_judge(pointsite_36,n_inline,point_inMb,n_Mb)
                     sign = false;
 
                 end
@@ -99,3 +97,30 @@ for i=1:length(Momments)%遍历时刻
     arrry_n_light(i)=total_n_light;
 end
 
+
+% 将数据平均分成 12 份
+n = 12;
+chunkSize = floor(length(array_n_trunc) / n); % 每一份的大小
+result = zeros(1, n); % 用于存储每一份的计算结果
+
+for i = 1:n
+    % 计算每一份的起始和结束索引
+    startIdx = (i - 1) * chunkSize + 1;
+    endIdx = i * chunkSize;
+    
+    % 如果是最后一份，确保包含所有剩余数据
+    if i == n
+        endIdx = length(array_n_trunc);
+    end
+    
+    % 提取当前份的数据
+    chunk = array_n_trunc(startIdx:endIdx);
+    
+    % 计算当前份的和，并除以 (1745 × 5)
+    result(i) = sum(chunk) / (1745 * 5);
+end
+
+% 显示结果
+for i = 1:n
+    fprintf('第 %d 份的和除以 1745×5 的结果是：%.4f\n', i, result(i));
+end

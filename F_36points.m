@@ -1,4 +1,4 @@
-% ÊäÈëµÄÊÇ[1,2,3]
+% ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[1,2,3]
 function point = F_36points(mirror_site,a_m,y_m)
     point=cell(36,1);
     idx = 0;
