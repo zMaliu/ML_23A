@@ -1,11 +1,11 @@
-function is_blocked = F_judge(point_on_mirrorA, sun_direction, blocker_mirror_pos, blocker_mirror_normal)
+function is_blocked = F_judge(point_on_mirrorA, sun_direction, blocker_mirror_pos, blocker_mirror_normal,M_square)
     % 检查从太阳方向到镜面A上某点的光线是否被镜面B遮挡
     % point_on_mirrorA: 镜面A上的点
     % sun_direction: 太阳光线方向（从太阳指向点）
     % blocker_mirror_pos: 可能遮挡的镜面B位置
     % blocker_mirror_normal: 镜面B的法向量
     
-    w = 3;  % 定日镜宽度
+    w = M_square/2;  % 定日镜宽度
     
     % 计算光线与镜面B平面的交点
     ray_dir = -sun_direction;  % 光线传播方向（从点看是反向）
