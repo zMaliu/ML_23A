@@ -6,6 +6,7 @@ hours = [9, 10, 12, 13, 15];
 minutes = [0, 30, 0, 30, 0]; 
 install_H = 4;
 M_square=6;
+Num=1745;
 data=readtable("data.xlsx");
 %镜子中心坐标集合 元素为列表 [x,y]
 Mirrors={};
@@ -25,12 +26,21 @@ array_n_trunc=[];
 array_n_cos=[];
 array_n_at=[];
 n_ref=0.92;
+
+% 计算热功率
+array_dni=[];
+%每面镜子输出的热功率
+array_e=[];
 %part1：计算每个定日镜的阴影遮挡效率n_sb  以数组array_n_sb输出
 for i=1:length(Momments)%遍历时刻
     month=Momments{i}(1);
     hour=Momments{i}(2);
     momment=Momments{i}(3);
     [a_s,y_s]=F_sun(month,hour,momment);
+
+    dni=F_dni(a_s);
+    array_dni=[array_dni,dni];
+
     total_n_light=0;
     new_Mirrors=[];
     %1.1、遍历确定未被塔阴影遮挡的定日镜
@@ -39,7 +49,7 @@ for i=1:length(Momments)%遍历时刻
         %F_select_M:输入太阳方位角、高度角、点坐标 
         % 返回true/false（是否在塔阴影里）
         
-        if not(F_select_M(a_s,y_s,mirror_site))
+        if not(F_select_M(a_s,y_s,mirror_site,Tower_site))
             new_Mirrors{end + 1} = mirror_site;
         end
     end
@@ -93,9 +103,19 @@ for i=1:length(Momments)%遍历时刻
         array_n_trunc=[array_n_trunc,n_trunc];
 
         n_light=n_trunc*n_sb*n_at*n_cos*n_ref;
+        e = res*0.36*n_light;
+        array_e=[array_e,e];
         total_n_light=total_n_light+n_light;
     end
     arrry_n_light(i)=total_n_light;
+
 end
 
+array_e_num=sum(reshape(array_e, Num, []), 1);
 
+% 60个时刻下输出的热功率
+array_e1=array_e_num.*array_dni;
+
+array_e2=sum(reshape(array_e1, 5, []), 1);
+% 年平均输出热功率
+e=mean(array_e2);
