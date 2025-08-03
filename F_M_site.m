@@ -1,60 +1,64 @@
-% 约束：定日镜之间的距离 - sqrt(x2) > 5，定日镜没有分布在（0，x1）为圆心的半径100m内，
-% 只分布在半径为350m内，输出格式是x(4)*2
-function M_site = F_M_site(x1, x2, x4)
-    % 在半径350的圆内生成x4个点，满足：
-    % 1. 不在以 (0, x1) 为圆心、半径100的圆内
-    % 2. 任意两点间距离 > 5
-    % 输入:
-    %   x1 - 小圆的y坐标（圆心为 (0, x1)）
-    %   x2 - 用于计算最小距离（当前未使用，但保留接口）
-    %   x4 - 需要生成的点数量
-    % 输出:
-    %   M_site - x4×2矩阵，每行是一个点的(x,y)坐标
+function M_site = F_M_site(tower_x, tower_y, N_mirrors, M_square)
+% F_M_site 在半径 350 的圆内随机生成 N_mirrors 个点
+% 1) 所有点不重合
+% 2) 所有点离 (tower_x, tower_y) 的距离 > 100
+% 3) 任意两点之间距离 > (M_square + 5)
+% 4) 所有点（含塔位置）位于以 (0,0) 为圆心、半径 350 的圆内
+%
+% 输入:
+%   tower_x, tower_y : 塔坐标
+%   N_mirrors        : 需要生成的点数
+%   M_square         : 用于计算最小间距
+%
+% 输出:
+%   M_site : N_mirrors×2 矩阵，每行一个点的 [x, y]
+
+    M_site = zeros(N_mirrors, 2);
+    R = 350;                         
+    minDist2Tower = 100;             
+    minDistBetween = M_square + 5;  
     
-    M_site = zeros(x4, 2);  % 预分配内存
-    small_center = [0, x1]; % 小圆圆心
-    small_radius = 100;     % 小圆半径
-    big_radius = 350;       % 大圆半径
-    min_distance = sqrt(x2);       % 最小点间距
+    % 检查塔自身是否在大圆内
+    if sqrt(tower_x^2 + tower_y^2) >= R
+        error('塔坐标超出大圆范围！');
+    end
     
-    for i = 1:x4
+    % 生成点
+    for k = 1:N_mirrors
+        found = false;
         attempts = 0;
-        max_attempts = 1000; % 防止无限循环
-        while attempts < max_attempts
-            % 极坐标法生成均匀随机点
-            theta = 2 * pi * rand();      % 随机角度 [0, 2π]
-            r = big_radius * sqrt(rand()); % 随机半径 [0, 350]
-            x = r * cos(theta);
-            y = r * sin(theta);
+        maxAttempts = 10000;          % 防止死循环
+        
+        while ~found && attempts < maxAttempts
+            attempts = attempts + 1;
             
-            % 检查是否在小圆外
-            dx = x - small_center(1);
-            dy = y - small_center(2);
-            if dx^2 + dy^2 < small_radius^2
-                attempts = attempts + 1;
-                continue;  % 在小圆内，重新生成
+            % 均匀圆内随机
+            theta = 2*pi*rand();
+            r = R*sqrt(rand());
+            x = r*cos(theta);
+            y = r*sin(theta);
+            pt = [x, y];
+            
+            % 检查离塔距离
+            if norm(pt - [tower_x, tower_y]) <= minDist2Tower
+                continue;
             end
             
-            valid = true;
-            for j = 1:i-1
-                dist = sqrt((x - M_site(j,1))^2 + (y - M_site(j,2))^2);
-                if dist <= min_distance
-                    valid = false;
-                    break;
+            % 检查与已有点的距离
+            if k > 1
+                dists = sqrt(sum((M_site(1:k-1,:) - pt).^2, 2));
+                if any(dists <= minDistBetween)
+                    continue;
                 end
             end
             
-            if valid
-                M_site(i, :) = [x, y];  % 符合条件，存储
-                break;
-            else
-                attempts = attempts + 1;
-            end
+            % 通过所有检查
+            M_site(k, :) = pt;
+            found = true;
         end
         
-        if attempts >= max_attempts
-            warning('Failed to find a valid point after %d attempts for point %d.', max_attempts, i);
-            M_site(i, :) = [NaN, NaN];  % 标记无效点（可选）
+        if ~found
+            error('无法在约束条件下生成 %d 个点。', N_mirrors);
         end
     end
 end
