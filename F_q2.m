@@ -1,4 +1,13 @@
-function e = F_q2(Tower_site,M_square,install_H,x3,M_site)
+function e = F_q2(x)
+    Tower_x=x(1);
+    Tower_y=x(2);
+    M_square=x(3);
+    install_H=x(4);
+    N_mirrors=round(x(5));
+
+    Tower_site=[Tower_x,Tower_y];
+    M_site=F_M_site(Tower_x,Tower_y,N_mirrors,M_square);
+    
     %时刻(月 小时 分钟) 元素为列表 [month,hour,moment]
     Momments={};
     months = 1:12; 
@@ -29,6 +38,7 @@ function e = F_q2(Tower_site,M_square,install_H,x3,M_site)
     array_e=[];
     %part1：计算每个定日镜的阴影遮挡效率n_sb  以数组array_n_sb输出
     for i=1:length(Momments)%遍历时刻
+        fprintf("当前为第%d个时刻\n",i);
         month=Momments{i}(1);
         hour=Momments{i}(2);
         momment=Momments{i}(3);
@@ -52,9 +62,9 @@ function e = F_q2(Tower_site,M_square,install_H,x3,M_site)
         
         %1.2、遍历Mirrors每个定日镜 进行阴影遮挡效率计算
         for j=1:length(new_Mirrors)%每个定日镜
-            fprintf("当前为第%d个时刻，第%d个定日镜\n",i,j);
+
             mirror_site=new_Mirrors{j};
-            tower_site=[0,Tower_site,80];
+            tower_site=[Tower_site,80];
     
             %part3：计算大气透射率 以数组array_n_at输出
             n_cos=F_n_cos(a_s,y_s,mirror_site,tower_site);
@@ -99,7 +109,8 @@ function e = F_q2(Tower_site,M_square,install_H,x3,M_site)
             array_n_trunc=[array_n_trunc,n_trunc];
     
             n_light=n_trunc*n_sb*n_at*n_cos*n_ref;
-            e = res*0.36*n_light;
+            e = res*(M_square*2/100)*n_light;
+
             array_e=[array_e,e];
             total_n_light=total_n_light+n_light;
         end
@@ -114,7 +125,7 @@ function e = F_q2(Tower_site,M_square,install_H,x3,M_site)
     
     array_e2=sum(reshape(array_e1, 5, []), 1);
     % 年平均输出热功率
-    e=mean(array_e2);
+    e = -abs(mean(array_e2));
 
 end
 
