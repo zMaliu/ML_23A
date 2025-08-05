@@ -7,6 +7,7 @@ minutes = [0, 30, 0, 30, 0];
 install_H = 4;
 M_square=6;
 Num=1745;
+tower_site=[0,0,80];
 data=readtable("data.xlsx");
 %镜子中心坐标集合 元素为列表 [x,y]
 Mirrors={};
@@ -20,7 +21,7 @@ for month = months
     end
 end
 
-arrry_n_light=zeros(1,60);
+array_n_light=zeros(1,60);
 array_n_sb=[];
 array_n_trunc=[];
 array_n_cos=[];
@@ -49,7 +50,7 @@ for i=1:length(Momments)%遍历时刻
         %F_select_M:输入太阳方位角、高度角、点坐标 
         % 返回true/false（是否在塔阴影里）
         
-        if not(F_select_M(a_s,y_s,mirror_site,Tower_site))
+        if not(F_select_M(a_s,y_s,mirror_site,tower_site))
             new_Mirrors{end + 1} = mirror_site;
         end
     end
@@ -58,7 +59,6 @@ for i=1:length(Momments)%遍历时刻
     for j=1:length(new_Mirrors)%每个定日镜
         fprintf("当前为第%d个时刻，第%d个定日镜\n",i,j);
         mirror_site=new_Mirrors{j};
-        tower_site=[0,0,80];
 
         %part3：计算大气透射率 以数组array_n_at输出
         n_cos=F_n_cos(a_s,y_s,mirror_site,tower_site);
@@ -107,7 +107,7 @@ for i=1:length(Momments)%遍历时刻
         array_e=[array_e,e];
         total_n_light=total_n_light+n_light;
     end
-    arrry_n_light(i)=total_n_light;
+    array_n_light(i)=total_n_light;
 
 end
 
@@ -119,3 +119,15 @@ array_e1=array_e_num.*array_dni;
 array_e2=sum(reshape(array_e1, 5, []), 1);
 % 年平均输出热功率
 e=mean(array_e2);
+
+% 重新整理成12个月的数据，然后返回到一个表
+temp=5*1745;
+array_n_light1=-sum(reshape(array_n_light, 5, []), 1)/temp;
+array_n_at1=sum(reshape(array_n_at, temp, []), 1)/temp;
+array_n_cos1=-sum(reshape(array_n_cos, temp, []), 1)/temp;
+array_n_sb1=sum(reshape(array_n_sb, temp, []), 1)/temp;
+array_n_trunc1=sum(reshape(array_n_trunc, temp, []), 1)/temp;
+
+
+x = 1:12;                     
+

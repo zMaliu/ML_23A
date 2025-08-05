@@ -3,8 +3,8 @@ function n_trunc = F_n_trunc(points,a_s,y_s,n_m)
     points = cell2mat(points.');
     n = size(points,1);
     r = 3.5;
-    zmin = 80;
-    zmax = 88;
+    zmin = 72;
+    zmax = 80;
     ta_n = 0;
     % 遍历每个点，得到每个点的反射光线
     for i=1:1:n
