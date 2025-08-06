@@ -20,11 +20,16 @@ h4 = plot(x, array_n_sb1,   '-d','LineWidth',1.5);
 h5 = plot(x, array_n_trunc1,'-v','LineWidth',1.5);
 h6 = plot(x, n_ref*ones(size(x)),'-x','LineWidth',1.5); % 镜面反射率是常数
 
-ylim([0.3 1]);
+ylim([0.4 1]);
 xlabel('月份');
 ylabel('各种效率');
-legend([h1 h2 h3 h4 h5 h6], ...
+% 统一放大字号
+set(gca,'FontSize',14);        
+set(gca,'XTick',1:1:12);         
+set(gca,'YTick',0.40:0.05:1.00); 
+lgd = legend([h1 h2 h3 h4 h5 h6], ...
        {'平均光学效率','大气透射率','平均余弦效率', ...
         '平均阴影遮挡效率','平均截断效率','镜面反射率'}, ...
        'Location','southoutside','Orientation','horizontal');
+set(lgd,'FontSize',14);       
 grid on;
